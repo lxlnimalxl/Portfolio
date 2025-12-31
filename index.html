@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Seyed Nima | Creative Developer</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* =================== 1. پالت رنگی و تنظیمات اصلی =================== */
+        :root {
+            --bg-body: #0a0a0a;       /* پس‌زمینه خیلی تیره */
+            --bg-card: #121212;
+            
+            /* پالت رنگی شما */
+            --salmon: #FF8F8F;        /* صورتی */
+            --cream: #FFF1CB;         /* کرم */
+            --blue: #C2E2FA;          /* آبی یخی */
+            --purple: #B7A3E3;        /* بنفش */
+            
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Vazirmatn', sans-serif;
+            margin: 0; padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* تایپوگرافی هوشمند */
+        h1, h2, h3, h4 { font-weight: 900; letter-spacing: -1px; }
+        p { line-height: 1.9; color: var(--text-muted); font-size: 0.95rem; text-align: justify; }
+        
+        .spacer { padding: 100px 0; }
+        @media (max-width: 768px) { .spacer { padding: 60px 0; } }
+
+        /* گرادینت پس‌زمینه محو */
+        .glow-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(255, 143, 143, 0.05), transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(183, 163, 227, 0.05), transparent 40%);
+        }
+
+        /* =================== 2. کامپوننت‌های شیک =================== */
+        /* تایتل‌ها */
+        .section-header { text-align: center; margin-bottom: 4rem; position: relative; }
+        .section-header h2 { font-size: 2.5rem; color: var(--text-main); display: inline-block; position: relative; }
+        .section-header h2::after {
+            content: ''; display: block; width: 60px; height: 4px; 
+            background: linear-gradient(90deg, var(--salmon), var(--purple));
+            margin: 10px auto 0; border-radius: 10px;
+        }
+
+        /* دکمه‌های خاص */
+        .btn-pastel {
+            background: var(--salmon);
+            color: #000; border: none; padding: 12px 35px; border-radius: 50px;
+            font-weight: 800; transition: 0.3s; position: relative; overflow: hidden;
+            box-shadow: 0 5px 20px rgba(255, 143, 143, 0.3);
+        }
+        .btn-pastel:hover { 
+            transform: translateY(-3px); 
+            background: var(--cream);
+            box-shadow: 0 10px 30px rgba(255, 241, 203, 0.4); 
+        }
+
+        /* نویگیشن شیشه‌ای */
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border); padding: 15px 0;
+        }
+        .nav-link { color: #ccc !important; transition: 0.3s; margin: 0 10px; font-weight: 500; }
+        .nav-link:hover { color: var(--salmon) !important; text-shadow: 0 0 10px var(--salmon); }
+
+        /* =================== 3. هیرو سکشن (اصلاح انیمیشن) =================== */
+        .hero-section {
+            min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative;
+        }
+        
+        .hero-subtitle {
+            color: var(--blue); font-weight: bold; letter-spacing: 2px; font-size: 0.9rem;
+            border: 1px solid var(--blue); padding: 5px 15px; border-radius: 50px; display: table; margin-bottom: 20px;
+        }
+
+        /* اصلاح تایپ راست چین */
+        .typed-cursor { color: var(--salmon); font-size: 2.5rem; }
+        .hero-title { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2; margin-bottom: 20px; text-align: right;}
+
+        /* قاب عکس نئونی */
+        .profile-frame {
+            position: relative; width: 320px; height: 320px; margin: 0 auto;
+            border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; /* شکل ارگانیک */
+            background: linear-gradient(45deg, var(--salmon), var(--purple));
+            animation: blob-bounce 6s ease-in-out infinite;
+            padding: 5px;
+        }
+        .profile-img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+            border: 4px solid var(--bg-body);
+            filter: grayscale(20%); transition: 0.5s;
+        }
+        .profile-frame:hover .profile-img { filter: grayscale(0%); }
+
+        @keyframes blob-bounce {
+            0%, 100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; }
+            50% { border-radius: 40% 60% 36% 64% / 46% 41% 59% 54%; }
+        }
+
+        /* =================== 4. نوار متحرک (Marquee Fixed) =================== */
+        .marquee-container {
+            background: var(--bg-card); padding: 25px 0;
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            overflow: hidden; white-space: nowrap; margin-top: -50px; position: relative; z-index: 2;
+            transform: rotate(-2deg); width: 105%; margin-left: -2.5%;
+        }
+        @media (max-width: 768px) { .marquee-container { transform: rotate(0); width: 100%; margin-left: 0; margin-top: 0; } }
+        
+        .marquee-content { display: inline-block; animation: scroll-left 25s linear infinite; }
+        .marquee-item {
+            display: inline-flex; align-items: center; margin: 0 40px;
+            font-size: 1.5rem; font-weight: 900; color: #444; text-transform: uppercase;
+        }
+        .marquee-item i { margin-left: 10px; color: var(--salmon); }
+        .marquee-item.blue i { color: var(--blue); }
+        .marquee-item.purple i { color: var(--purple); }
+
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
+
+        /* =================== 5. مسیر یادگیری (Roadmap Fixed) =================== */
+        .roadmap-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 50px; flex-wrap: wrap; }
+        .tab-btn {
+            background: transparent; border: 1px solid var(--border); color: #888;
+            padding: 10px 25px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .tab-btn:hover, .tab-btn.active { background: var(--salmon); color: #000; border-color: var(--salmon); box-shadow: 0 0 15px rgba(255, 143, 143, 0.4); }
+
+        .tab-content { display: none; animation: fadeIn 0.6s ease; }
+        .tab-content.active { display: block; }
+
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute; top: 0; bottom: 0; right: 50%; width: 2px;
+            background: linear-gradient(to bottom, var(--salmon), var(--purple)); margin-right: -1px;
+        }
+
+        .timeline-item { position: relative; width: 50%; padding: 0 40px; margin-bottom: 40px; }
+        .timeline-item:nth-child(odd) { margin-left: auto; text-align: right; } /* راست */
+        .timeline-item:nth-child(even) { margin-right: auto; text-align: left; } /* چپ */
+        
+        .timeline-dot {
+            position: absolute; top: 0; width: 20px; height: 20px; border-radius: 50%;
+            background: var(--bg-body); border: 4px solid var(--salmon); z-index: 2;
+        }
+        .timeline-item:nth-child(odd) .timeline-dot { left: -10px; }
+        .timeline-item:nth-child(even) .timeline-dot { right: -10px; }
+
+        .timeline-card {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 25px; border-radius: 20px; transition: 0.3s;
+        }
+        .timeline-card:hover { transform: translateY(-5px); border-color: var(--blue); }
+        .timeline-card h4 { color: var(--cream); font-size: 1.2rem; margin-bottom: 5px; }
+        
+        /* موبایل */
+        @media (max-width: 768px) {
+            .timeline::before { right: 20px; }
+            .timeline-item { width: 100%; padding-right: 50px; padding-left: 0; text-align: right !important; }
+            .timeline-dot { right: 11px !important; left: auto !important; }
+        }
+
+        /* =================== 6. خدمات و پروژه‌ها =================== */
+        .service-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 40px 30px; border-radius: 25px; transition: 0.3s; height: 100%;
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--salmon), var(--blue)); transform: scaleX(0); transition: 0.3s;
+        }
+        .service-card:hover { transform: translateY(-10px); }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-icon { font-size: 3rem; margin-bottom: 20px; color: var(--purple); }
+
+        .portfolio-item {
+            position: relative; border-radius: 20px; overflow: hidden; cursor: pointer; aspect-ratio: 4/3;
+        }
+        .portfolio-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .portfolio-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.85);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transition: 0.3s;
+        }
+        .portfolio-item:hover .portfolio-img { transform: scale(1.1); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+        /* =================== 7. فوتر و مودال =================== */
+        .footer { background: #050505; border-top: 1px solid var(--border); padding-top: 60px; }
+        
+        .social-link {
+            width: 45px; height: 45px; border-radius: 50%; background: #111; color: #fff;
+            display: inline-flex; align-items: center; justify-content: center; margin: 0 5px; transition: 0.3s;
+        }
+        .social-link:hover { background: var(--salmon); color: #000; transform: rotate(360deg); }
+
+        #preloader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+
+    </style>
+</head>
+<body class="loading">
+
+    <div class="glow-bg"></div>
+
+    <div id="preloader">
+        <div class="spinner-border" style="color: var(--salmon);" role="status"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark glass-nav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">NIMA<span style="color:var(--salmon)">.</span>DEV</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item"><a class="nav-link" href="#home">خانه</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#roadmap">مسیر من</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">خدمات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">نمونه‌کار</a></li>
+                </ul>
+                <div class="text-center">
+                    <button class="btn btn-outline-light rounded-pill btn-sm px-4" onclick="openContact()">شروع پروژه</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center flex-column-reverse flex-lg-row g-5">
+                <div class="col-lg-7 text-center text-lg-end" data-aos="fade-up">
+                    <span class="hero-subtitle">PORTFOLIO 2025</span>
+                    <h1 class="hero-title fw-black">
+                        سلام، من <br> 
+                        <span class="typed-text" style="color:var(--salmon)"></span> <br>
+                        هستم
+                    </h1>
+                    <p class="mb-4 mx-auto mx-lg-0" style="max-width: 600px;">
+                        من فاصله‌ی بین ایده‌های خلاقانه و کدهای پیچیده را پر می‌کنم. با استفاده از جدیدترین تکنولوژی‌ها، وب‌سایت‌هایی می‌سازم که هم زیبا هستند و هم سریع.
+                    </p>
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-3">
+                        <button class="btn btn-pastel" onclick="openContact()">همکاری کنید</button>
+                        <a href="#portfolio" class="btn btn-outline-light rounded-pill px-4 py-2">دیدن کارها</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center" data-aos="zoom-in">
+                    <div class="profile-frame">
+                        <img src="photo.jpg" class="profile-img" alt="Seyed Nima" onerror="this.src='https://via.placeholder.com/400x400/222/fff?text=Photo'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <div class="marquee-item"><i class="fab fa-react"></i> REACT.JS</div>
+            <div class="marquee-item blue"><i class="fab fa-js"></i> JAVASCRIPT</div>
+            <div class="marquee-item purple"><i class="fab fa-wordpress"></i> WORDPRESS</div>
+            <div class="marquee-item"><i class="fab fa-figma"></i> FIGMA UI</div>
+            <div class="marquee-item blue"><i class="fab fa-css3"></i> TAILWIND</div>
+            <div class="marquee-item purple"><i class="fab fa-html5"></i> HTML5</div>
+            <div class="marquee-item"><i class="fab fa-react"></i> REACT.JS</div>
+            <div class="marquee-item blue"><i class="fab fa-js"></i> JAVASCRIPT</div>
+        </div>
+    </div>
+
+    <section id="roadmap" class="spacer">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>نقشه راه من</h2>
+            </div>
+
+            <div class="roadmap-tabs" data-aos="fade-up">
+                <button class="tab-btn active" onclick="switchTab('frontend', this)">فرانت‌اند</button>
+                <button class="tab-btn" onclick="switchTab('wordpress', this)">وردپرس</button>
+                <button class="tab-btn" onclick="switchTab('uiux', this)">UI / UX</button>
+                <button class="tab-btn" onclick="switchTab('graphic', this)">گرافیک</button>
+            </div>
+
+            <div id="frontend" class="tab-content active">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--salmon);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله اول</span>
+                            <h4>HTML & CSS Mastery</h4>
+                            <p>یادگیری عمیق ساختار وب، فلکس‌باکس، گرید و انیمیشن‌های CSS برای خلق صفحات زنده.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--salmon);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله دوم</span>
+                            <h4>JavaScript & Logic</h4>
+                            <p>تسلط بر جاوا اسکریپت مدرن (ES6+)، کار با DOM و ارتباط با سرور (API).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--salmon);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله سوم</span>
+                            <h4>React.js & Next.js</h4>
+                            <p>ساخت اپلیکیشن‌های تک‌صفحه‌ای (SPA) و رندر سمت سرور (SSR) برای پرفورمنس بالا.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wordpress" class="tab-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--blue);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله اول</span>
+                            <h4>مدیریت محتوا (CMS)</h4>
+                            <p>نصب و راه‌اندازی وردپرس، مدیریت هاست و دامین، و امنیت پایه.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--blue);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله دوم</span>
+                            <h4>صفحه‌ساز المنتور</h4>
+                            <p>طراحی قالب‌های اختصاصی، هدر و فوتر و لندینگ پیج‌های حرفه‌ای با المنتور پرو.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="border-color: var(--blue);"></div>
+                        <div class="timeline-card">
+                            <span class="text-white-50 small">مرحله سوم</span>
+                            <h4>فروشگاه ووکامرس</h4>
+                            <p>راه‌اندازی فروشگاه اینترنتی کامل، درگاه پرداخت و سیستم حمل‌ونقل.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="uiux" class="tab-content"><div class="text-center text-muted py-5">مسیر یادگیری طراحی رابط کاربری (Figma, XD)</div></div>
+            <div id="graphic" class="tab-content"><div class="text-center text-muted py-5">مسیر یادگیری گرافیک (Photoshop, Illustrator)</div></div>
+        </div>
+    </section>
+
+    <section id="services" class="spacer" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>خدمات من</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="service-card">
+                        <i class="fas fa-code service-icon" style="color:var(--salmon)"></i>
+                        <h4>توسعه وب‌سایت</h4>
+                        <p>کدنویسی استاندارد و اختصاصی با جدیدترین متدهای روز دنیا.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <i class="fas fa-shopping-bag service-icon" style="color:var(--blue)"></i>
+                        <h4>فروشگاه آنلاین</h4>
+                        <p>راه‌اندازی فروشگاه قدرتمند با قابلیت فروش نامحدود محصول.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <i class="fab fa-figma service-icon" style="color:var(--purple)"></i>
+                        <h4>طراحی UI/UX</h4>
+                        <p>طراحی رابط کاربری چشم‌نواز قبل از شروع کدنویسی.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <i class="fas fa-rocket service-icon" style="color:var(--cream)"></i>
+                        <h4>سئو و سرعت</h4>
+                        <p>بهینه‌سازی سایت برای موتورهای جستجو و افزایش سرعت لود.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <i class="fas fa-mobile-alt service-icon" style="color:var(--salmon)"></i>
+                        <h4>وب اپلیکیشن</h4>
+                        <p>طراحی اپلیکیشن‌های تحت وب (PWA) قابل نصب روی موبایل.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card">
+                        <i class="fas fa-headset service-icon" style="color:var(--blue)"></i>
+                        <h4>پشتیبانی فنی</h4>
+                        <p>خیالتان راحت! پشتیبانی و رفع مشکلات سایت شما با من.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="spacer">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>نمونه‌کارها</h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">فروشگاه دیجی‌شاپ</h5>
+                            <span class="badge bg-danger">WordPress</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">داشبورد ادمین</h5>
+                            <span class="badge bg-primary">React.js</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">لندینگ پیج</h5>
+                            <span class="badge bg-warning text-dark">HTML/CSS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b799314346d?q=80&w=2070" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">هویت بصری</h5>
+                            <span class="badge bg-info">Graphic</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?q=80&w=2070" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">سایت شخصی</h5>
+                            <span class="badge bg-success">Next.js</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h5 class="text-white">اپلیکیشن موبایل</h5>
+                            <span class="badge bg-light text-dark">UI Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer py-5 border-top border-secondary border-opacity-25" style="background:#050505;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <h3 class="fw-bold text-white mb-3">NIMA<span style="color:var(--salmon)">.</span>DEV</h3>
+                    <p>من با ترکیب هنر و تکنولوژی، به کسب‌وکار شما کمک می‌کنم تا در دنیای دیجیتال بدرخشید.</p>
+                    <div class="mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h5 class="text-white mb-3">دسترسی</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="text-muted">خانه</a></li>
+                        <li class="mb-2"><a href="#roadmap" class="text-muted">مسیر من</a></li>
+                        <li class="mb-2"><a href="#portfolio" class="text-muted">نمونه‌کارها</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h5 class="text-white mb-3">خدمات</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-muted">طراحی سایت</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">سئو و سرعت</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted">گرافیک</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-3">اطلاعات تماس</h5>
+                    <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> 09157799337</p>
+                    <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> nimarounaghi11@gmail.com</p>
+                </div>
+            </div>
+            <div class="text-center mt-5 pt-4 border-top border-secondary border-opacity-10">
+                <p class="m-0 small text-muted">تمامی حقوق برای سید نیما رونقی محفوظ است © ۱۴۰۳</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background:#111; border:1px solid #333; color:#fff;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">شروع همکاری</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="contactForm">
+                        <input type="text" class="form-control mb-3" placeholder="نام شما" style="background:#080808; border-color:#333; color:#fff;" required>
+                        <input type="text" class="form-control mb-3" placeholder="شماره تماس" style="background:#080808; border-color:#333; color:#fff;" required>
+                        <textarea class="form-control mb-3" placeholder="توضیحات پروژه..." style="background:#080808; border-color:#333; color:#fff;" required></textarea>
+                        <button class="btn btn-pastel w-100">ارسال پیام</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // 1. Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('preloader');
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }
+        });
+        setTimeout(() => document.getElementById('preloader').style.display = 'none', 3000);
+
+        // 2. Init Animations
+        AOS.init({ duration: 800, once: true });
+
+        // 3. Typed Text
+        new Typed('.typed-text', {
+            strings: ['طراح رابط کاربری', 'توسعه‌دهنده فرانت‌اند', 'متخصص وردپرس'],
+            typeSpeed: 50, backSpeed: 30, loop: true
+        });
+
+        // 4. Roadmap Tabs Function (Fixed & Simple)
+        function switchTab(tabId, btn) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab
+            const selectedTab = document.getElementById(tabId);
+            selectedTab.style.display = 'block';
+            setTimeout(() => selectedTab.classList.add('active'), 10);
+            
+            // Set button active
+            btn.classList.add('active');
+        }
+
+        // 5. Contact Modal
+        function openContact() { new bootstrap.Modal(document.getElementById('contactModal')).show(); }
+        
+        try {
+            emailjs.init("D-2sziF1go7YsPgjx");
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('button');
+                btn.innerText = 'ارسال شد ✅';
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('contactModal')).hide();
+                    btn.innerText = 'ارسال پیام';
+                    this.reset();
+                }, 2000);
+            });
+        } catch(e) {}
+    </script>
+</body>
+</html>
